@@ -298,7 +298,7 @@ class tracker:
                     self.pfields(str(n), tmsi1, tmsi2, None, str(self.mcc), str(self.mnc), str(self.lac), str(self.cell), p)
 
     def imsi_seen(self, imsi, arfcn):
-        now = datetime.datetime.utcnow().replace(microsecond=0)
+        now = datetime.datetime.now(datetime.UTC)
         imsi, mcc, mnc = self.decode_imsi(imsi)
         if imsi in self.imsistate:
             self.imsistate[imsi]["lastseen"] = now
@@ -312,7 +312,7 @@ class tracker:
         self.imsi_purge_old()
 
     def imsi_purge_old(self):
-        now = datetime.datetime.utcnow().replace(microsecond=0)
+        now = datetime.datetime.now(datetime.UTC)
         maxage = datetime.timedelta(minutes=self.purgeTimer)
         limit = now - maxage
         remove = [imsi for imsi in self.imsistate if limit > self.imsistate[imsi]["lastseen"]]
